@@ -1,0 +1,441 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "aa34798c-2ad4-4b82-9f05-f5edb2bcfd74",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        -176
+      ],
+      "id": "0c574b28-2f66-48e7-810b-55af3c0b328f",
+      "name": "Webhook",
+      "webhookId": "aa34798c-2ad4-4b82-9f05-f5edb2bcfd74"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8e71cb36-b3b4-4a40-99e1-3432041cbfa9",
+              "name": "query['hub.challenge']",
+              "value": "={{ $json.query['hub.challenge'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        -176
+      ],
+      "id": "e96a5f20-0bdc-4b53-ad11-0f82b977aad8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        336,
+        -176
+      ],
+      "id": "03c3c527-9bca-4a82-a388-aefe08882994",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aa34798c-2ad4-4b82-9f05-f5edb2bcfd74",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        80
+      ],
+      "id": "5fd74628-4c19-43c8-934b-fcfc1942c777",
+      "name": "Webhook1",
+      "webhookId": "aa34798c-2ad4-4b82-9f05-f5edb2bcfd74"
+    },
+    {
+      "parameters": {
+        "content": "## ATIVAÇÃO \n### Conectar na api do facebook developers",
+        "height": 272,
+        "width": 688
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "e6dc0563-5d76-4f4d-b045-2d2f39003a14",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "da99c866-721f-4213-af3b-b3a69c7a254c",
+              "leftValue": "={{ $('Tratar Dados').item.json.from_id }}",
+              "rightValue": "={{ $('Tratar Dados').item.json.meu_id }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        80
+      ],
+      "id": "1e738cc1-19dd-477e-9d80-073996d0c410",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8afd140d-70c9-4a89-9fb4-5b8856bdf35c",
+              "name": "frases",
+              "value": "[\n  \"Te enviei agora no direct.\",\n  \"Confere sua caixa de entrada.\",\n  \"Já te mandei lá no direct.\",\n  \"Te chamei no privado.\",\n  \"Acabei de enviar no direct.\",\n  \"Te mandei mensagem lá.\",\n  \"Dei um toque no seu direct.\",\n  \"Olha o direct, já está lá.\",\n  \"Mensagem enviada no privado.\",\n  \"Te enviei por lá!\"\n]",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        -16
+      ],
+      "id": "be68be44-eaf5-4f7e-acdc-ba369332044f",
+      "name": "Array Frases Resposta"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8bbe2036-7c4c-465f-a25d-15a7c6c4d7df",
+              "name": "meu_id",
+              "value": "={{ $json.body.entry[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "b3dfc853-c322-4688-a6d7-004a288ae169",
+              "name": "from_id",
+              "value": "={{ $json.body.entry[0].changes[0].value.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e3a304ec-e031-4fa4-9d5b-97bc1affd5da",
+              "name": "from_username",
+              "value": "={{ $json.body.entry[0].changes[0].value.from.username }}",
+              "type": "string"
+            },
+            {
+              "id": "f2ce20c2-1459-4c0f-94b4-69986b27e936",
+              "name": "comment_id",
+              "value": "={{ $json.body.entry[0].changes[0].value.id }}",
+              "type": "string"
+            },
+            {
+              "id": "74615c1b-b5d2-4b2e-8bb5-2a68056bf3bd",
+              "name": "media_id",
+              "value": "={{ $json.body.entry[0].changes[0].value.media.id }}",
+              "type": "string"
+            },
+            {
+              "id": "83a0cb25-0618-4e1e-abb8-927041d0799e",
+              "name": "comment",
+              "value": "={{ $json.body.entry[0].changes[0].value.text }}",
+              "type": "string"
+            },
+            {
+              "id": "411db2cf-c692-4c55-a3ed-a89efa14b58f",
+              "name": "type_field",
+              "value": "={{ $json.body.entry[0].changes[0].field }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        80
+      ],
+      "id": "bcaaeb0a-cac9-40c8-be17-4c13f73e8eee",
+      "name": "Tratar Dados"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Array vindo do Set\nconst frases = $input.first().json.frases\n\n// Sorteia índice\nconst index = Math.floor(Math.random() * frases.length);\n\n// Retorna a frase\nreturn [{\n  frase: frases[index]\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -16
+      ],
+      "id": "2954f561-0a17-4014-97b3-3d5ff6b59a6f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v23.0/{{ $('Tratar Dados').item.json.comment_id }}/replies",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer IGAAI3fKWbkq5BZAFFUUFNPblNkUWZAkYU56emdvOUgyS1RvY2hHcUZAyTE9xbnNyNlgwTEl1dThuVllIcUFPY2FhSmZA4d25QQm9mMUZAIZA1ZAYd2IzWHBLN0Yzc3NvY1hsZAzcwSGhnbUFFaXkyUGppU2lQVnVJLU9GdDUtYW53RmpvNAZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $('Code in JavaScript').item.json.frase }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1248,
+        -16
+      ],
+      "id": "73d2103d-1410-4f1e-bc1f-a9daebf55f2c",
+      "name": "Resposta Comentario"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v23.0/me/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer IGAAI3fKWbkq5BZAFFUUFNPblNkUWZAkYU56emdvOUgyS1RvY2hHcUZAyTE9xbnNyNlgwTEl1dThuVllIcUFPY2FhSmZA4d25QQm9mMUZAIZA1ZAYd2IzWHBLN0Yzc3NvY1hsZAzcwSGhnbUFFaXkyUGppU2lQVnVJLU9GdDUtYW53RmpvNAZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message.text",
+              "value": "=Opa! Aqui está o link com o prompt completo.. Se ficar alguma duvida, pode perguntar!\n\n🔗 https://noto.li/busMqO"
+            },
+            {
+              "name": "recipient.comment_id",
+              "value": "={{ $('Tratar Dados').item.json.comment_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1488,
+        -16
+      ],
+      "id": "63e42711-f428-4352-ad6f-0deab89cc748",
+      "name": "Resposta no Direct"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Tratar Dados').item.json.comment }}",
+                    "rightValue": "123",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "fae577ab-5ccd-4ae8-9f70-d025d7a1a5fc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "123"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        528,
+        80
+      ],
+      "id": "523cc87f-80f4-4a20-9a37-4541b12749cd",
+      "name": "Switch"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Tratar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Array Frases Resposta": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tratar Dados": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Resposta Comentario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resposta Comentario": {
+      "main": [
+        [
+          {
+            "node": "Resposta no Direct",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resposta no Direct": {
+      "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Array Frases Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "3d4ca4adbef24635054de1ad468c4efb567c72899877322bf261e73b68fdc4ba"
+  }
+}
